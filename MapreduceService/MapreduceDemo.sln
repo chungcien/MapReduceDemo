@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapreduceService", "..\MapreduceDemo\MapreduceService\MapreduceService.csproj", "{99352E57-5211-4ECB-B5F9-41917600B29E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapreduceWebview", "MapreduceWebview\MapreduceWebview.csproj", "{76E11C64-0DA5-4733-8FF5-10E14551BE36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{99352E57-5211-4ECB-B5F9-41917600B29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99352E57-5211-4ECB-B5F9-41917600B29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99352E57-5211-4ECB-B5F9-41917600B29E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E11C64-0DA5-4733-8FF5-10E14551BE36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E11C64-0DA5-4733-8FF5-10E14551BE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E11C64-0DA5-4733-8FF5-10E14551BE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E11C64-0DA5-4733-8FF5-10E14551BE36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
