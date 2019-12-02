@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MapreduceDemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Repositories">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="URL" Type="nvarchar(max)" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="ServiceConfig">
+          <Key>
+            <PropertyRef Name="ServiceName" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ServiceLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="100" />
+          <Property Name="RunTime" Type="varchar" MaxLength="30" />
+          <Property Name="Status" Type="nvarchar" MaxLength="20" />
+          <Property Name="Logfile" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceName" />
+          </Key>
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExcutePath" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="State" Type="bit" />
+        </EntityType>
+        <EntityType Name="Solution">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReposID" Type="int" />
+          <Property Name="Path" Type="nvarchar(max)" />
+          <Property Name="CountFiles" Type="int" />
+          <Property Name="CountLOC" Type="int" />
+          <Property Name="CountBLOC" Type="int" />
+          <Property Name="CountCLOC" Type="int" />
+          <Property Name="CountCCLOC" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SolutionDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SolutionID" Type="int" />
+          <Property Name="FilePath" Type="nvarchar(max)" />
+          <Property Name="CountFiles" Type="int" />
+          <Property Name="CountLOC" Type="int" />
+          <Property Name="CountBLOC" Type="int" />
+          <Property Name="CountCLOC" Type="int" />
+          <Property Name="CountCCLOC" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_ServiceConfig_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="ServiceConfig" Type="Self.ServiceConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceName" />
+            </Principal>
+            <Dependent Role="ServiceConfig">
+              <PropertyRef Name="ServiceName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLog_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceName" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ServiceName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MapreduceDemoModelStoreContainer">
+          <EntitySet Name="Repositories" EntityType="Self.Repositories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceConfig" EntityType="Self.ServiceConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceLog" EntityType="Self.ServiceLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Solution" EntityType="Self.Solution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SolutionDetails" EntityType="Self.SolutionDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ServiceConfig_Services" Association="Self.FK_ServiceConfig_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceConfig" EntitySet="ServiceConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLog_Services" Association="Self.FK_ServiceLog_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MapreduceDemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Repository">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccessToken" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ServiceConfig">
+          <Key>
+            <PropertyRef Name="ServiceName" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_ServiceConfig_Services" FromRole="ServiceConfig" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="ServiceLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RunTime" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Logfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_ServiceLog_Services" FromRole="ServiceLog" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceName" />
+          </Key>
+          <Property Name="ServiceName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExcutePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="Boolean" />
+          <NavigationProperty Name="ServiceConfigs" Relationship="Self.FK_ServiceConfig_Services" FromRole="Services" ToRole="ServiceConfig" />
+          <NavigationProperty Name="ServiceLogs" Relationship="Self.FK_ServiceLog_Services" FromRole="Services" ToRole="ServiceLog" />
+        </EntityType>
+        <EntityType Name="Solution">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReposID" Type="Int32" />
+          <Property Name="Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CountFiles" Type="Int32" />
+          <Property Name="CountLOC" Type="Int32" />
+          <Property Name="CountBLOC" Type="Int32" />
+          <Property Name="CountCLOC" Type="Int32" />
+          <Property Name="CountCCLOC" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SolutionDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SolutionID" Type="Int32" />
+          <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CountFiles" Type="Int32" />
+          <Property Name="CountLOC" Type="Int32" />
+          <Property Name="CountBLOC" Type="Int32" />
+          <Property Name="CountCLOC" Type="Int32" />
+          <Property Name="CountCCLOC" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_ServiceConfig_Services">
+          <End Role="Services" Type="Self.Service" Multiplicity="1" />
+          <End Role="ServiceConfig" Type="Self.ServiceConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceName" />
+            </Principal>
+            <Dependent Role="ServiceConfig">
+              <PropertyRef Name="ServiceName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLog_Services">
+          <End Role="Services" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceName" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ServiceName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MapreduceDemoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Repositories" EntityType="Self.Repository" />
+          <EntitySet Name="ServiceConfigs" EntityType="Self.ServiceConfig" />
+          <EntitySet Name="ServiceLogs" EntityType="Self.ServiceLog" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Solutions" EntityType="Self.Solution" />
+          <EntitySet Name="SolutionDetails" EntityType="Self.SolutionDetail" />
+          <AssociationSet Name="FK_ServiceConfig_Services" Association="Self.FK_ServiceConfig_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceConfig" EntitySet="ServiceConfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLog_Services" Association="Self.FK_ServiceLog_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="ServiceLog" EntitySet="ServiceLogs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MapreduceDemoModelStoreContainer" CdmEntityContainer="MapreduceDemoEntities">
+          <EntitySetMapping Name="Repositories">
+            <EntityTypeMapping TypeName="MapreduceDemoModel.Repository">
+              <MappingFragment StoreEntitySet="Repositories">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceConfigs">
+            <EntityTypeMapping TypeName="MapreduceDemoModel.ServiceConfig">
+              <MappingFragment StoreEntitySet="ServiceConfig">
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceLogs">
+            <EntityTypeMapping TypeName="MapreduceDemoModel.ServiceLog">
+              <MappingFragment StoreEntitySet="ServiceLog">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="RunTime" ColumnName="RunTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Logfile" ColumnName="Logfile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="MapreduceDemoModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ExcutePath" ColumnName="ExcutePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Solutions">
+            <EntityTypeMapping TypeName="MapreduceDemoModel.Solution">
+              <MappingFragment StoreEntitySet="Solution">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ReposID" ColumnName="ReposID" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="CountFiles" ColumnName="CountFiles" />
+                <ScalarProperty Name="CountLOC" ColumnName="CountLOC" />
+                <ScalarProperty Name="CountBLOC" ColumnName="CountBLOC" />
+                <ScalarProperty Name="CountCLOC" ColumnName="CountCLOC" />
+                <ScalarProperty Name="CountCCLOC" ColumnName="CountCCLOC" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SolutionDetails">
+            <EntityTypeMapping TypeName="MapreduceDemoModel.SolutionDetail">
+              <MappingFragment StoreEntitySet="SolutionDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SolutionID" ColumnName="SolutionID" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="CountFiles" ColumnName="CountFiles" />
+                <ScalarProperty Name="CountLOC" ColumnName="CountLOC" />
+                <ScalarProperty Name="CountBLOC" ColumnName="CountBLOC" />
+                <ScalarProperty Name="CountCLOC" ColumnName="CountCLOC" />
+                <ScalarProperty Name="CountCCLOC" ColumnName="CountCCLOC" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
