@@ -44,7 +44,7 @@ namespace JobController
 
                 foreach(string x in repos)
                 { 
-                    var t = new Thread(() => Mapper(x, dataGridView1, label7, now));
+                    var t = new Thread(() => Mapper(x , @"\MapReduce", dataGridView1, label7, now));
                     t.Start();
                 }
 
@@ -54,19 +54,20 @@ namespace JobController
 
                 foreach (string x in repos)
                 {
-                    Mapper(x, dataGridView2, label8, now);
+                    Mapper(x , @"\NoMapReduce", dataGridView2, label8, now);
                 }
 
             }).Start();
         }
 
         DataTable result = new DataTable();
-        private void Mapper(string path , DataGridView dataGridView, Label lb, DateTime _now)
+        private void Mapper(string path, string folderOutput, DataGridView dataGridView, Label lb, DateTime _now)
         {
+            File_Read_Write.Create_Exits_Folder(path + folderOutput);
             Thread.CurrentThread.IsBackground = true;
             var p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "LocMetrics.exe";
-            p.StartInfo.Arguments = "-i \"" + path + "\" - e \"*.cs\" - o \"" + path + "\"";
+            p.StartInfo.Arguments = "-i \"" + path + "\" - e \"*.cs\" - o \"" + path + folderOutput + "\"";
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.CreateNoWindow = true;
@@ -75,7 +76,7 @@ namespace JobController
             p.WaitForExit();
 
             
-            DataTable dt = ConvertCSVtoDataTable(path + @"\LocMetricsFolders.csv");
+            DataTable dt = ConvertCSVtoDataTable(path + folderOutput + @"\LocMetricsFolders.csv");
 
             result = dt.Clone();
 
