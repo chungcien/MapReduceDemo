@@ -86,7 +86,7 @@
     <Content Include="bin\Debug\JobController.exe" />
     <Content Include="bin\Debug\JobController.pdb" />
     <Content Include="bin\Debug\LocMetrics.exe" />
-    <Content Include="LocMetrics.exe">
+    <Content Include="Mapper.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

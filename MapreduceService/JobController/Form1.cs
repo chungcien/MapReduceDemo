@@ -66,7 +66,7 @@ namespace JobController
             File_Read_Write.Create_Exits_Folder(path + folderOutput);
             Thread.CurrentThread.IsBackground = true;
             var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "LocMetrics.exe";
+            p.StartInfo.FileName = "Mapper.exe";
             p.StartInfo.Arguments = "-i \"" + path + "\" - e \"*.cs\" - o \"" + path + folderOutput + "\"";
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.UseShellExecute = false;
@@ -95,7 +95,7 @@ namespace JobController
 
             lb.Invoke(new MethodInvoker(delegate ()
             {
-                lb.Text = DateTime.Now.Subtract(_now).TotalSeconds.ToString();
+                lb.Text = Math.Round(DateTime.Now.Subtract(_now).TotalSeconds, 2).ToString() + " (s)";
             }));
         }
 
@@ -104,7 +104,7 @@ namespace JobController
         {
             Thread.CurrentThread.IsBackground = true;
             var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "LocMetrics.exe";
+            p.StartInfo.FileName = "Reducer.exe";
             p.StartInfo.Arguments = path + @"\";
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.UseShellExecute = false;
