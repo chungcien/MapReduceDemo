@@ -22,6 +22,8 @@ namespace JobController
 
         List<string> repos = new List<string>();
 
+
+
         private void btnBrowser_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.ShowDialog();
@@ -37,22 +39,29 @@ namespace JobController
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-
+            DateTime now = DateTime.Now;
             new Thread(() => {
 
                 foreach(string x in repos)
                 { 
-                    var t = new Thread(() => Mapper(x));
+                    var t = new Thread(() => Mapper(x, dataGridView1, label7, now));
                     t.Start();
                 }
 
             }).Start();
 
+            new Thread(() => {
 
+                foreach (string x in repos)
+                {
+                    Mapper(x, dataGridView2, label8, now);
+                }
+
+            }).Start();
         }
 
         DataTable result = new DataTable();
-        private void Mapper(string path)
+        private void Mapper(string path , DataGridView dataGridView, Label lb, DateTime _now)
         {
             Thread.CurrentThread.IsBackground = true;
             var p = new System.Diagnostics.Process();
@@ -72,7 +81,7 @@ namespace JobController
 
             result.Rows.Add(dt.Rows[0].ItemArray);
 
-            dataGridView1.Invoke(new MethodInvoker(delegate ()
+            dataGridView.Invoke(new MethodInvoker(delegate ()
             {
                 //listView1.Items.Add("Mapping done: " + path + " - Files: " + dt.Rows[0]["Files"].ToString() + " - Lines of Code: " + dt.Rows[0]["LOC"].ToString() + " - Code and Comment Lines of Code: " + dt.Rows[0]["C&SLOC"].ToString() + " - Comment Only Lines of Code: " + dt.Rows[0]["CLOC"].ToString() + " - Blank Lines of Code: " + dt.Rows[0]["BLOC"].ToString());
 
@@ -80,10 +89,13 @@ namespace JobController
                 ////listView1.MultiColumn = true;
                 ////listView1.Items.Add(dt.Rows[0]);
                 ///
-                dataGridView1.Rows.Add(new object[] { path, dt.Rows[0]["Files"].ToString(), dt.Rows[0]["LOC"].ToString(), dt.Rows[0]["BLOC"].ToString(), dt.Rows[0]["C&SLOC"].ToString(), dt.Rows[0]["CLOC"].ToString() });
+                dataGridView.Rows.Add(new object[] { path, dt.Rows[0]["Files"].ToString(), dt.Rows[0]["LOC"].ToString(), dt.Rows[0]["BLOC"].ToString(), dt.Rows[0]["C&SLOC"].ToString(), dt.Rows[0]["CLOC"].ToString() });
             }));
 
-
+            lb.Invoke(new MethodInvoker(delegate ()
+            {
+                lb.Text = DateTime.Now.Subtract(_now).TotalSeconds.ToString();
+            }));
         }
 
 
@@ -134,6 +146,11 @@ namespace JobController
 
 
             return dt;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
